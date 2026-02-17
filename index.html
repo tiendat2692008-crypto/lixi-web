@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LÌ XÌ CỦA TỔNG TÀI</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    text-align:center;
+    background: linear-gradient(45deg,#ff0000,#ff9900,#ff0066);
+    background-size:400% 400%;
+    animation:bg 6s infinite alternate;
+    color:white;
+}
+@keyframes bg{
+    0%{background-position:left;}
+    100%{background-position:right;}
+}
+
+h1{
+    background:gold;
+    color:red;
+    padding:15px 25px;
+    border-radius:20px;
+    display:inline-block;
+    margin-top:20px;
+    box-shadow:0 0 25px yellow;
+}
+
+.admin-btn{
+    margin-top:10px;
+    padding:8px 15px;
+    border:none;
+    border-radius:10px;
+    background:black;
+    color:gold;
+    cursor:pointer;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap:15px;
+    padding:20px;
+}
+
+.envelope{
+    background:red;
+    border-radius:15px;
+    padding:30px 0;
+    cursor:pointer;
+    font-size:45px;
+    transition:0.3s;
+    box-shadow:0 0 15px gold;
+}
+
+.envelope:hover{
+    transform:scale(1.1);
+    background:#ff3333;
+}
+
+#result{
+    margin-top:20px;
+    font-size:22px;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<h1>LÌ XÌ CỦA TỔNG TÀI 🥵😻</h1>
+<br>
+<button class="admin-btn" onclick="loginAdmin()">Đăng nhập Admin</button>
+
+<div class="grid" id="grid"></div>
+
+<div id="result"></div>
+
+<script>
+
+// ===== ADMIN =====
+let isAdmin = false;
+let adminPassword = "124689"; // MẬT KHẨU MỚI
+
+function loginAdmin(){
+    let pass = prompt("Nhập mật khẩu admin:");
+    if(pass === adminPassword){
+        isAdmin = true;
+        alert("Đã bật chế độ Admin 👑");
+    } else {
+        alert("Sai mật khẩu!");
+    }
+}
+
+// ===== DANH SÁCH TIỀN =====
+let pool = [
+"5k","5k","5k","5k","5k","5k",
+"10k","10k","10k","10k","10k",
+"20k","20k","20k","20k",
+"50k","50k","50k",
+"100k","100k"
+];
+
+pool.sort(()=>Math.random()-0.5);
+
+const grid = document.getElementById("grid");
+
+for(let i=0;i<20;i++){
+    const div=document.createElement("div");
+    div.className="envelope";
+    div.innerHTML="🐎";
+    div.onclick=()=>openEnvelope(i,div);
+    grid.appendChild(div);
+}
+
+function openEnvelope(index,element){
+
+    if(localStorage.getItem("played") && !isAdmin){
+        alert("Bạn đã rút rồi!");
+        return;
+    }
+
+    const money = pool[index];
+
+    element.innerHTML = money + "<br>💰";
+    element.style.background="gold";
+    element.style.color="black";
+
+    document.getElementById("result").innerHTML =
+        "🎉 Bạn nhận được " + money + " 🎉";
+
+    if(!isAdmin){
+        localStorage.setItem("played",true);
+    }
+}
+
+</script>
+
+</body>
+</html>
